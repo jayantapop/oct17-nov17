@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Hunt Sparrow</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Luckiest+Guy" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo:400,500,700" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <div class="starter">
+        <div class="user_info">
+            <h1>Hunt Sparrow</h1>
+            <h5 class="blink_me">Use headphone for better experience</h5>
+            <form class="sparow_form" method="post" action="" autocomplete="off">
+                <div class="form-group">
+                    <input type="name" id="name" class="form-control" placeholder="Enter Your alias name" autocomplete="off">
+                    <div id="formName" class="error_msg"></div>
+                </div>
+                <button type="button" id="playButton" class="btn common_button">Play</button>
+            </form>
+            <div class="audiocontrol">
+                <div class="bar-c">
+                    <div id="bar-1" class="bar"></div>
+                    <div id="bar-2" class="bar"></div>
+                    <div id="bar-3" class="bar"></div>
+                    <div id="bar-4" class="bar"></div>
+                    <div id="bar-5" class="bar"></div>
+                    <div id="bar-6" class="bar"></div>
+                </div>
+            </div>
+            <audio id="BgSound" loop autoplay>
+                <source src="audio/bgsound.mp3" type="audio/mp3"></source>
+            </audio>
+        </div>
+    </div>
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
