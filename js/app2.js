@@ -6,11 +6,11 @@ window.onbeforeunload = function () {
 }
 
 $(document).ready(function () {
-    var arrowCount = 25;
-    $("body").append("<div class='numberOfArray' style='position: absolute; z-index: 99; background: #80F4CF; padding: 10px; color: #000; border-radius: 50%; left: 10px; bottom: 10px; font-size: 15px; font-weight: bold; border: 2px solid #000;'>" + arrowCount + "</div>");
+	var arrowCount = 15;
+	$("body").append("<div class='numberOfArray' style='position: absolute; z-index: 99; background: #80F4CF; padding: 10px; color: #000; border-radius: 50%; left: 10px; bottom: 10px; font-size: 15px; font-weight: bold; border: 2px solid #000;'>"+arrowCount+"</div>");
     /* === Background Music Fetch Start === */
     //console.log(localStorage.getItem('gamemusic'));
-    BgSound.volume = .3;
+    BgSound.volume = .1;
     var gamemusicstate = localStorage.getItem('gamemusic');
     var mainAudio = document.getElementById('BgSound');
     //console.log(typeof gamemusicstate, gamemusicstate)
@@ -30,7 +30,7 @@ $(document).ready(function () {
         var pageX = e.pageX - ($(window).width() / 2),
             pageY = e.pageY - ($(window).height() / 2),
             newvalueX = width * pageX * -1 - 0,
-            newvalueY = height * pageY * -1 - 10
+            newvalueY = height * pageY * -1 - 5
         $('#top-image').css("background-position", newvalueX + "px     " + newvalueY + "px");
     });
     /* === Paralax Background End === */
@@ -85,7 +85,7 @@ $(document).ready(function () {
                 var a = (w.height() - hoffset),
                     o = Math.tan(angle * (Math.PI / 180)) * a,
                     left = w.width() / 2 + o;
-                var speed = 1000 / 2000;
+                var speed = 1500 / 2000;
                 var h = Math.sqrt(Math.pow(a, 2) + Math.pow(o, 2));
                 bullet.animate({
                     top: 0,
@@ -94,22 +94,27 @@ $(document).ready(function () {
                     duration: h / speed,
                     easing: 'linear',
                     complete: function () {
-                        //alert('complete triggered');
                         bullet.remove();
-                        arrowCount = arrowCount - 1;
-                        if (arrowCount == 0) {
-                            alert('game over');
-                            return false;
-                        }
-                        $(".numberOfArray").html(arrowCount);
+						arrowCount = arrowCount - 1;
+						if(arrowCount == 0) {
+							alert('game over');
+							return false;
+						}
+						$(".numberOfArray").html(arrowCount);
                         clearInterval(liveposition);
 
                     },
                     step: function (now, fx) {
                         var l = parseInt(bullet.css('left'));
-                        if (l > w.width() - 50 || l < 0) {
+                        if (now < 0 || now > (w.width() - 100)) {
+							clearInterval(liveposition);
                             bullet.stop().remove();
-                            clearInterval(liveposition);
+							arrowCount = arrowCount - 1;
+							if(arrowCount == 0) {
+								alert('game over');
+								return false;
+							}
+							$(".numberOfArray").html(arrowCount);
                         }
                     }
                 });
@@ -132,19 +137,16 @@ $(document).ready(function () {
                     var x4Right = parseInt(x4) + 110;
                     var y4 = Math.round(y2);
                     var y4Bottom = parseInt(y4) + 110;
-                    //console.log(x3, x4, x4Right, y3, y4, y4Bottom);
-
                     if (x3 >= x4 && x3 <= x4Right && y3 >= y4 && y3 <= y4Bottom) {
                         clearInterval(liveposition);
-                        console.log('shoot');
                         var birdshootSound = document.getElementById('birdshootSound');
                         birdshootSound.play();
-
+						bullet.stop().remove();
                         $('.birdposition').addClass('hideeffect');
-                        $('div.hideeffect').remove();
+                        $('div.hideeffect').stop().remove();
                         var el = parseInt($('.score_count').text());
-                        $('.score_count').text(el + 100);
-                        canrandomnumberofbirds();
+                        $('.score_count').text(el + 10);
+						canrandomnumberofbirds();
                     }
 
                 }, 100);
@@ -164,42 +166,42 @@ $(document).ready(function () {
 
 
 });
-
 function canrandomnumberofbirds() {
-    callthebird();
-    /* in case random number of bird required open this block 
-    var randomnumber = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
-    for(var i = 0; i< randomnumber ; i++) {
-    	callthebird();
-    }*/
+	callthebird();
+	/*in case random number of bird required open this block 
+	var randomnumber = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+	for(var i = 0; i< randomnumber ; i++) {
+		callthebird();
+	}*/
 }
-
 function callthebird() {
-    var ranbirdspeed = Math.floor(Math.random() * 15000) + 3000;
-    var containerHeight = $('.bird_container').height();
-    var ranbirdpos = Math.floor(Math.random() * containerHeight) + 200;
-    //console.log(ranbirdpos);
-    //console.log('loop');
-    $('<div id="" class="animation birdposition fromleft"></div>').appendTo('.bird_container');
-    var birdleft = $('.fromleft').offset().left;
+	var ranbirdspeed = Math.floor(Math.random() * 8000) + 3000;
+	var containerHeight = $('.bird_container').height();
+	var ranbirdpos = Math.floor(Math.random() * containerHeight) + 280;
+	
+	//console.log(ranbirdpos);
+	//console.log($('.bird_container').height());
+	
+	$('<div id="" class="animation fromleft birdposition"></div>').appendTo('.bird_container');
+	var birdleft = $('.fromleft').offset().left;
+	console.log()
+	$(".fromleft").css({
+		left: birdleft,
+		top: Math.floor( Math.random() * ( 1 - 280 ) ) + containerHeight - 280
 
-    $(".fromleft").css({
-        left: birdleft,
-        top: 0
-
-    }).animate({
-        left: -150
-    }, {
-        duration: ranbirdspeed,
-        /*specialEasing: {
-        	width: "linear",
-        	height: "easeOutBounce"
-        },*/
-        complete: function () {
-            $('.fromleft').remove();
-            canrandomnumberofbirds()
-        }
-    });
+	}).animate({
+		left: -150
+	}, {
+		duration: ranbirdspeed,
+		/*specialEasing: {
+			width: "linear",
+			height: "easeOutBounce"
+		},*/
+		complete: function () {
+			$('.fromleft').remove();
+			canrandomnumberofbirds()
+		}
+	});
 }
 
 /* $(function () {
@@ -212,3 +214,65 @@ function callthebird() {
 
 
 }, 3000);*/
+
+/*================ Custom Preloder Start ================*/
+
+var scrolled = 0;
+var veil = 0;
+var lastScroll = 0;
+var direction = "down";
+var ignore = false;
+var oldNum = null;
+$(window).on('beforeunload', function () {
+    resetSlide();
+});
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function showQuotes() {
+
+    var quotes = new Array("Building your game floor....", "Move your cursor to shoot the target", "Click to shoot", "You will get 15 arrow", "When you the shoot the target you will get your arrow back");
+    var num = 0;
+    do {
+        num = getRandomInt(0, 3);
+        //console.log("calculating num..");
+    }
+    while (num == oldNum);
+    //console.log("Selected:"+num);
+    var selectedQuote = quotes[num];
+    oldNum = num;
+    //window.setTimeout(function() { },5000);
+    $("#quotes").html("“" + selectedQuote + "”");
+    $("#quotes").removeClass("fadeOutDown").addClass("fadeInUp");
+    //		console.log(Date()+": Refreshing in 5 secs");
+    window.setTimeout(hideQuotes, 4000);
+}
+
+function hideQuotes() {
+    $("#quotes").removeClass("fadeInUp").addClass("fadeOutDown");
+    if ($("body").hasClass("hide_overflow")) {
+        //console.log(Date()+": Showing again");
+        window.setTimeout(showQuotes, 500);
+    }
+}
+$(window).load(function () {
+    $("body").removeClass("hide_overflow");
+    $("html").removeClass("hide_overflow");
+    $("#preloader").fadeOut();
+    if (scrolled == 0) {
+        $(".scroll-arrow").css("opacity", "1");
+        window.setTimeout(showDots, 2000);
+    }
+});
+
+function showDots() {
+    for (var i = 0; i < 300; i++) {
+        $(".dots").height(i);
+        //console.log("height"+i+"px");
+    };
+}
+
+/*================ Custom Preloder End ================*/
+
