@@ -29,22 +29,19 @@
 </head>
 
 <body id="top-image" class="hide_overflow">
-   
-   <section id="preloader" class="full_height">
+
+    <section id="preloader" class="full_height">
         <div class="col-md-12 text-center">
-            <!--            <img src="images/pre-logo.png" alt="" />-->
-            <!--            <p><img src="images/loader.gif"> &nbsp;Loading</p>-->
             <p class="clear-loading spinner">
                 <span></span>
-                <!--                <br /> Loading-->
             </p>
             <blockquote>
                 <p id="quotes" class="animated fadeOutDown"></p>
             </blockquote>
         </div>
     </section>
-   
-   
+
+
     <audio id="BgSound" loop autoplay>
         <source src="audio/rainforest_ambience.mp3" type="audio/mp3"></source>
     </audio>
@@ -72,9 +69,36 @@
     </div>
 
 
+
     <div class="footer">
-        Developed by Jayanta Das
+        &copy; Developed by Jayanta Das
     </div>
+
+    <div class="finisher">
+        <div class="user_info finish_user_details">
+            <h1>Game Over</h1>
+
+            <h5 class="">Your Score</h5>
+            <h4 class="final_score_text"><span class="blink_me gameScore"></span></h4>
+            <div>
+                <ul class="finish_replay_option">
+                    <li>
+                        <button type="button" id="replayButton" class="btn exit_button">Replay</button>
+                    </li>
+                    <!--
+                   <li>
+    <button type="button" id="exitButton" class="btn exit_button">Exit</button>
+</li>
+-->
+                </ul>
+            </div>
+            <h5 class="copyright">&copy; 2017 | Developed By: Jayanta Das</h5>
+
+
+        </div>
+    </div>
+
+
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -82,6 +106,10 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/app2.js?a11"></script>
+    <script>
+        showQuotes();
+
+    </script>
 </body>
 
 </html>

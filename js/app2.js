@@ -6,8 +6,13 @@ window.onbeforeunload = function () {
 }
 
 $(document).ready(function () {
-	var arrowCount = 15;
-	$("body").append("<div class='numberOfArray' style='position: absolute; z-index: 99; background: #80F4CF; padding: 10px; color: #000; border-radius: 50%; left: 10px; bottom: 10px; font-size: 15px; font-weight: bold; border: 2px solid #000;'>"+arrowCount+"</div>");
+    /* ==== Mouse Alt click block Start ==== */
+    $("body").on("contextmenu", function () {
+        return false;
+    });
+    /* ==== Mouse Alt click block End ==== */
+    var arrowCount = 15;
+    $("body").append("<div class='numberOfArray arrow_count_display'>Arrow Left: " + arrowCount + "</div>");
     /* === Background Music Fetch Start === */
     //console.log(localStorage.getItem('gamemusic'));
     BgSound.volume = .1;
@@ -23,7 +28,7 @@ $(document).ready(function () {
     }
     /* === Background Music Fetch End === */
     /* === Paralax Background Start === */
-    var movementStrength = 10,
+    var movementStrength = 15,
         height = movementStrength / $(window).height(),
         width = movementStrength / $(window).width()
     $("#top-image").mousemove(function (e) {
@@ -95,26 +100,33 @@ $(document).ready(function () {
                     easing: 'linear',
                     complete: function () {
                         bullet.remove();
-						arrowCount = arrowCount - 1;
-						if(arrowCount == 0) {
-							alert('game over');
-							return false;
-						}
-						$(".numberOfArray").html(arrowCount);
+                        arrowCount = arrowCount - 1;
+                        if (arrowCount == 0) {
+                            //alert('game over');
+                            $('.finisher').show();
+                            shootSound.pause("5000");
+                            $('.gameScore').text($('.score_count').text());
+
+                            return false;
+                        }
+                        $(".numberOfArray").text('Arrow Left: ' + arrowCount);
                         clearInterval(liveposition);
 
                     },
                     step: function (now, fx) {
                         var l = parseInt(bullet.css('left'));
                         if (now < 0 || now > (w.width() - 100)) {
-							clearInterval(liveposition);
+                            clearInterval(liveposition);
                             bullet.stop().remove();
-							arrowCount = arrowCount - 1;
-							if(arrowCount == 0) {
-								alert('game over');
-								return false;
-							}
-							$(".numberOfArray").html(arrowCount);
+                            arrowCount = arrowCount - 1;
+                            if (arrowCount == 0) {
+                                //alert('game over');
+                                $('.finisher').show();
+                                shootSound.pause("5000");
+                                $('.gameScore').text($('.score_count').text());
+                                return false;
+                            }
+                            $(".numberOfArray").text('Arrow Left: ' + arrowCount);
                         }
                     }
                 });
@@ -141,12 +153,12 @@ $(document).ready(function () {
                         clearInterval(liveposition);
                         var birdshootSound = document.getElementById('birdshootSound');
                         birdshootSound.play();
-						bullet.stop().remove();
+                        bullet.stop().remove();
                         $('.birdposition').addClass('hideeffect');
                         $('div.hideeffect').stop().remove();
                         var el = parseInt($('.score_count').text());
                         $('.score_count').text(el + 10);
-						canrandomnumberofbirds();
+                        canrandomnumberofbirds();
                     }
 
                 }, 100);
@@ -166,42 +178,44 @@ $(document).ready(function () {
 
 
 });
-function canrandomnumberofbirds() {
-	callthebird();
-	/*in case random number of bird required open this block 
-	var randomnumber = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
-	for(var i = 0; i< randomnumber ; i++) {
-		callthebird();
-	}*/
-}
-function callthebird() {
-	var ranbirdspeed = Math.floor(Math.random() * 8000) + 3000;
-	var containerHeight = $('.bird_container').height();
-	var ranbirdpos = Math.floor(Math.random() * containerHeight) + 280;
-	
-	//console.log(ranbirdpos);
-	//console.log($('.bird_container').height());
-	
-	$('<div id="" class="animation fromleft birdposition"></div>').appendTo('.bird_container');
-	var birdleft = $('.fromleft').offset().left;
-	console.log()
-	$(".fromleft").css({
-		left: birdleft,
-		top: Math.floor( Math.random() * ( 1 - 280 ) ) + containerHeight - 280
 
-	}).animate({
-		left: -150
-	}, {
-		duration: ranbirdspeed,
-		/*specialEasing: {
-			width: "linear",
-			height: "easeOutBounce"
-		},*/
-		complete: function () {
-			$('.fromleft').remove();
-			canrandomnumberofbirds()
-		}
-	});
+function canrandomnumberofbirds() {
+    callthebird();
+    /*in case random number of bird required open this block 
+    var randomnumber = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+    for(var i = 0; i< randomnumber ; i++) {
+    	callthebird();
+    }*/
+}
+
+function callthebird() {
+    var ranbirdspeed = Math.floor(Math.random() * 8000) + 3000;
+    var containerHeight = $('.bird_container').height();
+    var ranbirdpos = Math.floor(Math.random() * containerHeight) + 280;
+
+    //console.log(ranbirdpos);
+    //console.log($('.bird_container').height());
+
+    $('<div id="" class="animation fromleft birdposition"></div>').appendTo('.bird_container');
+    var birdleft = $('.fromleft').offset().left;
+    //console.log()
+    $(".fromleft").css({
+        left: birdleft,
+        top: Math.floor(Math.random() * (1 - 280)) + containerHeight - 280
+
+    }).animate({
+        left: -150
+    }, {
+        duration: ranbirdspeed,
+        /*specialEasing: {
+        	width: "linear",
+        	height: "easeOutBounce"
+        },*/
+        complete: function () {
+            $('.fromleft').remove();
+            canrandomnumberofbirds()
+        }
+    });
 }
 
 /* $(function () {
@@ -214,6 +228,19 @@ function callthebird() {
 
 
 }, 3000);*/
+
+$('#replayButton').on('click', function (e) {
+    e.preventDefault();
+    $("body").fadeOut(1000, function () {
+        window.location.replace("index.html");
+    })
+});
+$('#exitButton').on('click', function (e) {
+    e.preventDefault();
+
+    window.top.close();
+});
+
 
 /*================ Custom Preloder Start ================*/
 
@@ -275,4 +302,3 @@ function showDots() {
 }
 
 /*================ Custom Preloder End ================*/
-
