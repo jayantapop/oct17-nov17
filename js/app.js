@@ -1,8 +1,8 @@
 $(document).ready(function () {
     /* ==== Mouse Alt click block Start ==== */
-    $("body").on("contextmenu", function () {
-        return false;
-    });
+//    $("body").on("contextmenu", function () {
+            //        return false;
+            //    });
     /* ==== Mouse Alt click block End ==== */
     var glower = $('#name');
     window.setInterval(function () {
